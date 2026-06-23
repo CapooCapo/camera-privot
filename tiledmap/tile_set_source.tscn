@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://0owvf5o0uv23"]
+
+[ext_resource type="ArrayMesh" uid="uid://cdv5m5g5ee5q7" path="res://pixel art/Stone_Floor_1.obj" id="1_dgvcb"]
+
+[node name="TileSetSource" type="Node3D" unique_id=1076336661]
+
+[node name="StoneFloor1" type="MeshInstance3D" parent="." unique_id=1700091202]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.013586521, 0, -0.09658837)
+mesh = ExtResource("1_dgvcb")
