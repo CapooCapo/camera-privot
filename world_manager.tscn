@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://tlpidqsymcr"]
+
+[ext_resource type="Script" uid="uid://byhcs10g4ho5g" path="res://tiledmap/BuildGrid.gd" id="2_37kqa"]
+
+[sub_resource type="MeshLibrary" id="MeshLibrary_37kqa"]
+
+[node name="WorldManager" type="Node3D" unique_id=984496036]
+script = ExtResource("2_37kqa")
+
+[node name="GridMap" type="GridMap" parent="." unique_id=2096209570]
+mesh_library = SubResource("MeshLibrary_37kqa")
