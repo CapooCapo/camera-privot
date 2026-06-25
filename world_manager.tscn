@@ -1,11 +1,33 @@
 [gd_scene format=3 uid="uid://tlpidqsymcr"]
 
 [ext_resource type="Script" uid="uid://byhcs10g4ho5g" path="res://tiledmap/BuildGrid.gd" id="2_37kqa"]
+[ext_resource type="Script" path="res://tiledmap/GridTerrainGenerator.gd" id="3_terrain"]
+[ext_resource type="Script" path="res://tiledmap/GridPlacementRules.gd" id="4_rules"]
+[ext_resource type="Script" path="res://tiledmap/GridTargeting.gd" id="5_target"]
+[ext_resource type="Script" path="res://tiledmap/GridBuildPreview.gd" id="6_preview"]
 
 [sub_resource type="MeshLibrary" id="MeshLibrary_37kqa"]
 
 [node name="WorldManager" type="Node3D" unique_id=984496036]
-script = ExtResource("2_37kqa")
 
 [node name="GridMap" type="GridMap" parent="." unique_id=2096209570]
 mesh_library = SubResource("MeshLibrary_37kqa")
+
+[node name="BuildGrid" type="Node" parent="." unique_id=1337523806]
+script = ExtResource("2_37kqa")
+
+[node name="TerrainGenerator" type="Node" parent="BuildGrid" unique_id=304705870]
+script = ExtResource("3_terrain")
+
+[node name="PlacementRules" type="Node" parent="BuildGrid" unique_id=2034273950]
+script = ExtResource("4_rules")
+
+[node name="Targeting" type="Node" parent="BuildGrid" unique_id=991416990]
+script = ExtResource("5_target")
+
+[node name="Preview" type="Node3D" parent="BuildGrid" unique_id=1645296514]
+script = ExtResource("6_preview")
+
+[node name="BlockPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=1397955517]
+
+[node name="FootprintPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=1075989299]
