@@ -14,8 +14,15 @@ extends Node3D
 
 @export var yaw_degrees := 45.0
 @export var pitch_degrees := 55.0
+@export var follow_terrain_height := true
+@export var terrain_grid_path: NodePath = ^"../GridMap"
+@export var terrain_height_offset := 2.0
+@export var terrain_height_lerp_speed := 8.0
+@export var terrain_sample_min_y := 0
+@export var terrain_sample_max_y := 32
 
 @onready var camera = $Camera3D
+@onready var terrain_grid: GridMap = get_node_or_null(terrain_grid_path)
 
 var is_rotating_with_mouse := false
 
@@ -47,6 +54,7 @@ func _process(delta):
 	var forward = -yaw_basis.z
 	var move_direction = (right * input_dir.x + forward * -input_dir.y).normalized()
 	position += move_direction * move_speed * delta
+	_update_terrain_height(delta)
 
 	var yaw_input := 0
 	var pitch_input := 0
@@ -102,3 +110,33 @@ func _update_camera_transform():
 		cos(pitch_radians) * camera_distance
 	)
 	camera.look_at(global_position, Vector3.UP)
+
+
+func _update_terrain_height(delta: float):
+	if not follow_terrain_height or terrain_grid == null:
+		return
+
+	var local_position := terrain_grid.to_local(global_position)
+	var cell := terrain_grid.local_to_map(local_position)
+	var top_y := _get_top_terrain_y(cell.x, cell.z)
+	if top_y < terrain_sample_min_y:
+		return
+
+	var target_local := terrain_grid.map_to_local(Vector3i(cell.x, top_y, cell.z))
+	var target_world_y := terrain_grid.to_global(target_local).y + terrain_height_offset
+	position.y = lerpf(
+		position.y,
+		target_world_y,
+		clampf(delta * terrain_height_lerp_speed, 0.0, 1.0)
+	)
+	_update_camera_transform()
+
+
+func _get_top_terrain_y(cell_x: int, cell_z: int) -> int:
+	var top_y := terrain_sample_min_y - 1
+
+	for y in range(terrain_sample_min_y, terrain_sample_max_y + 1):
+		if terrain_grid.get_cell_item(Vector3i(cell_x, y, cell_z)) != GridMap.INVALID_CELL_ITEM:
+			top_y = y
+
+	return top_y

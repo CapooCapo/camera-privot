@@ -4,6 +4,8 @@ extends Node
 @export var allow_side_face_placement := true
 @export var raycast_epsilon := 0.0001
 @export var ground_pick_y_offset := 0.0
+@export var ray_march_step := 0.2
+@export var max_raycast_distance := 128.0
 
 
 func get_mouse_target(
@@ -31,17 +33,24 @@ func get_mouse_target(
 	)
 	var max_distance := INF
 	if ground_hit != null:
-		max_distance = ray_origin.distance_to(ground_hit) + grid_map.cell_size.length()
+		max_distance = ray_origin.distance_to(ground_hit) + grid_map.cell_size.length() * 16.0
 
-	var block_hit := _raycast_blocks(grid_map, placement_rules, ray_origin, ray_direction, max_distance)
+	var block_hit := _raycast_occupied_cells(grid_map, placement_rules, ray_origin, ray_direction, max_distance)
 
 	if not block_hit.is_empty():
 		var hit_cell := Vector3i(block_hit["cell"])
 		var hit_normal := Vector3i(block_hit["normal"])
 		var is_top_face := hit_normal == Vector3i.UP
+		var is_build_block: bool = placement_rules.is_build_block_cell(grid_map, hit_cell)
 
-		var place_cell := hit_cell + hit_normal
-		if not is_top_face and not allow_side_face_placement:
+		var place_cell := Vector3i(
+			hit_cell.x,
+			placement_rules.get_top_occupied_y(grid_map, hit_cell.x, hit_cell.z) + 1,
+			hit_cell.z
+		)
+		if is_build_block and (is_top_face or allow_side_face_placement):
+			place_cell = hit_cell + hit_normal
+		elif is_build_block and not is_top_face and not allow_side_face_placement:
 			place_cell = Vector3i(
 				hit_cell.x,
 				placement_rules.get_top_block_y(grid_map, hit_cell.x, hit_cell.z) + 1,
@@ -61,7 +70,11 @@ func get_mouse_target(
 		return {}
 
 	return {
-		"place_cell": Vector3i(ground_cell.x, 1, ground_cell.z),
+		"place_cell": Vector3i(
+			ground_cell.x,
+			placement_rules.get_top_occupied_y(grid_map, ground_cell.x, ground_cell.z) + 1,
+			ground_cell.z
+		),
 		"delete_cell": Vector3i(
 			ground_cell.x,
 			placement_rules.get_top_block_y(grid_map, ground_cell.x, ground_cell.z),
@@ -70,7 +83,7 @@ func get_mouse_target(
 	}
 
 
-func _raycast_blocks(
+func _raycast_occupied_cells(
 	grid_map: GridMap,
 	placement_rules: Node,
 	ray_origin: Vector3,
@@ -80,38 +93,53 @@ func _raycast_blocks(
 	if ray_direction == Vector3.ZERO:
 		return {}
 
-	var best_cell := Vector3i.ZERO
-	var best_normal := Vector3i.ZERO
-	var best_distance := max_distance + raycast_epsilon
-	var has_hit := false
+	var march_distance = minf(max_distance, max_raycast_distance)
+	if is_inf(march_distance):
+		march_distance = max_raycast_distance
 
-	for cell in grid_map.get_used_cells():
-		if not placement_rules.is_build_block_cell(grid_map, cell):
-			continue
+	var previous_cell := grid_map.local_to_map(ray_origin)
+	var distance := 0.0
 
-		var hit := _ray_intersects_cell_aabb(
-			ray_origin,
-			ray_direction,
-			placement_rules.get_block_aabb(grid_map, cell)
-		)
-		if hit.is_empty():
-			continue
+	while distance <= march_distance:
+		var point := ray_origin + ray_direction * distance
+		var cell := grid_map.local_to_map(point)
 
-		var hit_distance := float(hit["distance"])
-		if hit_distance < best_distance:
-			best_distance = hit_distance
-			best_cell = cell
-			best_normal = Vector3i(hit["normal"])
-			has_hit = true
+		if grid_map.get_cell_item(cell) != GridMap.INVALID_CELL_ITEM:
+			var normal := _normal_from_entered_cell(previous_cell, cell)
+			if normal == Vector3i.ZERO:
+				normal = Vector3i.UP
 
-	if has_hit:
-		return {
-			"cell": best_cell,
-			"normal": best_normal,
-			"distance_sq": best_distance * best_distance,
-		}
+			return {
+				"cell": cell,
+				"normal": normal,
+				"distance_sq": distance * distance,
+			}
+
+		previous_cell = cell
+		distance += ray_march_step
 
 	return {}
+
+
+func _normal_from_entered_cell(previous_cell: Vector3i, current_cell: Vector3i) -> Vector3i:
+	var delta := previous_cell - current_cell
+	if delta == Vector3i.ZERO:
+		return Vector3i.ZERO
+
+	if absi(delta.x) >= absi(delta.y) and absi(delta.x) >= absi(delta.z):
+		return Vector3i(signi(delta.x), 0, 0)
+	if absi(delta.y) >= absi(delta.z):
+		return Vector3i(0, signi(delta.y), 0)
+
+	return Vector3i(0, 0, signi(delta.z))
+
+
+func signi(value: int) -> int:
+	if value > 0:
+		return 1
+	if value < 0:
+		return -1
+	return 0
 
 
 func _intersect_ground_plane(ray_origin: Vector3, ray_direction: Vector3, plane_y: float):
