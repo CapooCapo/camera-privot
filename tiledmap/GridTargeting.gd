@@ -31,17 +31,24 @@ func get_mouse_target(
 	)
 	var max_distance := INF
 	if ground_hit != null:
-		max_distance = ray_origin.distance_to(ground_hit) + grid_map.cell_size.length()
+		max_distance = ray_origin.distance_to(ground_hit) + grid_map.cell_size.length() * 16.0
 
-	var block_hit := _raycast_blocks(grid_map, placement_rules, ray_origin, ray_direction, max_distance)
+	var block_hit := _raycast_occupied_cells(grid_map, placement_rules, ray_origin, ray_direction, max_distance)
 
 	if not block_hit.is_empty():
 		var hit_cell := Vector3i(block_hit["cell"])
 		var hit_normal := Vector3i(block_hit["normal"])
 		var is_top_face := hit_normal == Vector3i.UP
+		var is_build_block: bool = placement_rules.is_build_block_cell(grid_map, hit_cell)
 
-		var place_cell := hit_cell + hit_normal
-		if not is_top_face and not allow_side_face_placement:
+		var place_cell := Vector3i(
+			hit_cell.x,
+			placement_rules.get_top_occupied_y(grid_map, hit_cell.x, hit_cell.z) + 1,
+			hit_cell.z
+		)
+		if is_build_block and (is_top_face or allow_side_face_placement):
+			place_cell = hit_cell + hit_normal
+		elif is_build_block and not is_top_face and not allow_side_face_placement:
 			place_cell = Vector3i(
 				hit_cell.x,
 				placement_rules.get_top_block_y(grid_map, hit_cell.x, hit_cell.z) + 1,
@@ -61,7 +68,11 @@ func get_mouse_target(
 		return {}
 
 	return {
-		"place_cell": Vector3i(ground_cell.x, 1, ground_cell.z),
+		"place_cell": Vector3i(
+			ground_cell.x,
+			placement_rules.get_top_occupied_y(grid_map, ground_cell.x, ground_cell.z) + 1,
+			ground_cell.z
+		),
 		"delete_cell": Vector3i(
 			ground_cell.x,
 			placement_rules.get_top_block_y(grid_map, ground_cell.x, ground_cell.z),
@@ -70,7 +81,7 @@ func get_mouse_target(
 	}
 
 
-func _raycast_blocks(
+func _raycast_occupied_cells(
 	grid_map: GridMap,
 	placement_rules: Node,
 	ray_origin: Vector3,
@@ -86,7 +97,7 @@ func _raycast_blocks(
 	var has_hit := false
 
 	for cell in grid_map.get_used_cells():
-		if not placement_rules.is_build_block_cell(grid_map, cell):
+		if grid_map.get_cell_item(cell) == GridMap.INVALID_CELL_ITEM:
 			continue
 
 		var hit := _ray_intersects_cell_aabb(

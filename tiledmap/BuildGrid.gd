@@ -56,7 +56,7 @@ func delete_block_at_mouse(mouse_position: Vector2 = Vector2(-1.0, -1.0)):
 		return
 
 	var cell: Vector3i = target["delete_cell"]
-	if cell.y > 0:
+	if placement_rules.is_build_block_cell(grid_map, cell):
 		terrain_generator.set_runtime_cell(grid_map, cell, GridMap.INVALID_CELL_ITEM)
 
 

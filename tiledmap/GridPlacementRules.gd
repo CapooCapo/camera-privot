@@ -21,21 +21,18 @@ func can_place_block(grid_map: GridMap, cell: Vector3i) -> bool:
 
 
 func has_support(grid_map: GridMap, cell: Vector3i) -> bool:
-	if cell.y == 1:
-		return has_ground(grid_map, cell.x, cell.z)
-
 	return grid_map.get_cell_item(cell + Vector3i.DOWN) != GridMap.INVALID_CELL_ITEM
 
 
 func has_ground(grid_map: GridMap, x: int, z: int) -> bool:
-	return grid_map.get_cell_item(Vector3i(x, 0, z)) != GridMap.INVALID_CELL_ITEM
+	return get_top_occupied_y(grid_map, x, z) != -1
 
 
 func is_build_block_cell(grid_map: GridMap, cell: Vector3i) -> bool:
 	return (
 		cell.y > 0
 		and cell.y <= max_build_height
-		and grid_map.get_cell_item(cell) != GridMap.INVALID_CELL_ITEM
+		and grid_map.get_cell_item(cell) == block_item
 	)
 
 
@@ -43,6 +40,16 @@ func get_top_block_y(grid_map: GridMap, x: int, z: int) -> int:
 	var top_y := 0
 
 	for y in range(1, max_build_height + 1):
+		if grid_map.get_cell_item(Vector3i(x, y, z)) == block_item:
+			top_y = y
+
+	return top_y
+
+
+func get_top_occupied_y(grid_map: GridMap, x: int, z: int) -> int:
+	var top_y := -1
+
+	for y in range(0, max_build_height + 1):
 		if grid_map.get_cell_item(Vector3i(x, y, z)) != GridMap.INVALID_CELL_ITEM:
 			top_y = y
 

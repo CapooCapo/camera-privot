@@ -328,6 +328,23 @@ roughness = 0.9
 material = SubResource("StandardMaterial3D_clean_stone")
 size = Vector3(0.98, 0.04, 0.98)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
+transparency = 1
+albedo_color = Color(0.18, 0.42, 0.82, 0.72)
+roughness = 0.35
+
+[sub_resource type="BoxMesh" id="BoxMesh_water"]
+material = SubResource("StandardMaterial3D_water")
+size = Vector3(0.98, 0.06, 0.98)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tree"]
+albedo_color = Color(0.09, 0.34, 0.12, 1)
+roughness = 0.85
+
+[sub_resource type="BoxMesh" id="BoxMesh_tree"]
+material = SubResource("StandardMaterial3D_tree")
+size = Vector3(0.45, 1.0, 0.45)
+
 [resource]
 item/0/name = "Grass"
 item/0/mesh = SubResource("PlaneMesh_ybqg3")
@@ -397,3 +414,17 @@ item/8/mesh_cast_shadow = 1
 item/8/shapes = []
 item/8/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/8/navigation_layers = 1
+item/9/name = "Water"
+item/9/mesh = SubResource("BoxMesh_water")
+item/9/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.03, 0)
+item/9/mesh_cast_shadow = 0
+item/9/shapes = []
+item/9/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/9/navigation_layers = 1
+item/10/name = "Tree"
+item/10/mesh = SubResource("BoxMesh_tree")
+item/10/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+item/10/mesh_cast_shadow = 1
+item/10/shapes = []
+item/10/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/10/navigation_layers = 1
