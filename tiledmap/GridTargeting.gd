@@ -3,6 +3,7 @@ extends Node
 
 @export var allow_side_face_placement := true
 @export var raycast_epsilon := 0.0001
+@export var ground_pick_y_offset := 0.0
 
 
 func get_mouse_target(
@@ -23,7 +24,11 @@ func get_mouse_target(
 	var ray_origin := grid_map.to_local(ray_origin_world)
 	var ray_direction := (grid_map.global_transform.basis.inverse() * ray_direction_world).normalized()
 
-	var ground_hit = _intersect_ground_plane(ray_origin, ray_direction)
+	var ground_hit = _intersect_ground_plane(
+		ray_origin,
+		ray_direction,
+		_get_ground_pick_y(grid_map)
+	)
 	var max_distance := INF
 	if ground_hit != null:
 		max_distance = ray_origin.distance_to(ground_hit) + grid_map.cell_size.length()
@@ -109,11 +114,11 @@ func _raycast_blocks(
 	return {}
 
 
-func _intersect_ground_plane(ray_origin: Vector3, ray_direction: Vector3):
+func _intersect_ground_plane(ray_origin: Vector3, ray_direction: Vector3, plane_y: float):
 	if absf(ray_direction.y) < 0.0001:
 		return null
 
-	var distance := -ray_origin.y / ray_direction.y
+	var distance := (plane_y - ray_origin.y) / ray_direction.y
 	if distance < 0.0:
 		return null
 
@@ -121,11 +126,12 @@ func _intersect_ground_plane(ray_origin: Vector3, ray_direction: Vector3):
 
 
 func _point_to_ground_cell(grid_map: GridMap, point: Vector3) -> Vector3i:
-	return Vector3i(
-		floori(point.x / grid_map.cell_size.x + 0.5),
-		0,
-		floori(point.z / grid_map.cell_size.z + 0.5)
-	)
+	var cell := grid_map.local_to_map(point)
+	return Vector3i(cell.x, 0, cell.z)
+
+
+func _get_ground_pick_y(grid_map: GridMap) -> float:
+	return grid_map.map_to_local(Vector3i.ZERO).y + ground_pick_y_offset
 
 
 func _ray_intersects_cell_aabb(ray_origin: Vector3, ray_direction: Vector3, aabb: AABB) -> Dictionary:

@@ -3,10 +3,10 @@
 [ext_resource type="MeshLibrary" uid="uid://c0hvcka0umrsw" path="res://tiledmap/world.tres" id="2_pdwwk"]
 [ext_resource type="Script" uid="uid://yuk8bk8dhu3i" path="res://CameraPivot.gd" id="2_v6hvl"]
 [ext_resource type="Script" uid="uid://byhcs10g4ho5g" path="res://tiledmap/BuildGrid.gd" id="3_7eowt"]
-[ext_resource type="Script" path="res://tiledmap/GridTerrainGenerator.gd" id="4_terrain"]
-[ext_resource type="Script" path="res://tiledmap/GridPlacementRules.gd" id="5_rules"]
-[ext_resource type="Script" path="res://tiledmap/GridTargeting.gd" id="6_target"]
-[ext_resource type="Script" path="res://tiledmap/GridBuildPreview.gd" id="7_preview"]
+[ext_resource type="Script" uid="uid://jwveg1b4cjpm" path="res://tiledmap/GridTerrainGenerator.gd" id="4_terrain"]
+[ext_resource type="Script" uid="uid://p7kt0ej7i5du" path="res://tiledmap/GridPlacementRules.gd" id="5_rules"]
+[ext_resource type="Script" uid="uid://dvh7yk2xudv58" path="res://tiledmap/GridTargeting.gd" id="6_target"]
+[ext_resource type="Script" uid="uid://ipa7ug85dsnv" path="res://tiledmap/GridBuildPreview.gd" id="7_preview"]
 
 [node name="Node3D" type="Node3D" unique_id=408228230]
 
@@ -33,13 +33,13 @@ data = {
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="BuildGrid" type="Node" parent="." unique_id=3176085416]
+[node name="BuildGrid" type="Node" parent="." unique_id=-1118881880]
 script = ExtResource("3_7eowt")
 
 [node name="TerrainGenerator" type="Node" parent="BuildGrid" unique_id=1289426731]
 script = ExtResource("4_terrain")
 
-[node name="PlacementRules" type="Node" parent="BuildGrid" unique_id=2263812039]
+[node name="PlacementRules" type="Node" parent="BuildGrid" unique_id=-2031155257]
 script = ExtResource("5_rules")
 
 [node name="Targeting" type="Node" parent="BuildGrid" unique_id=783642996]
@@ -50,4 +50,4 @@ script = ExtResource("7_preview")
 
 [node name="BlockPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=1280919936]
 
-[node name="FootprintPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=3853064785]
+[node name="FootprintPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=-441902511]
