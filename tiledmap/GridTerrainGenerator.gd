@@ -11,6 +11,7 @@ extends Node
 @export var water_level := 2
 @export var mountain_level := 7
 @export var max_terrain_height := 10
+@export var max_visible_cliff_depth := 4
 @export var dirt_surface_chance := 0.18
 @export var tree_chance := 0.075
 
@@ -237,15 +238,14 @@ func _render_terrain_column(grid_map: GridMap, world_x: int, world_z: int) -> Ar
 	var surface_y: int = terrain["surface_y"]
 	var surface_item: int = terrain["surface_item"]
 
-	for y in range(0, surface_y):
-		var item_id := stone_item if y < surface_y - 1 else dirt_item
-		var cell := Vector3i(world_x, y, world_z)
-		grid_map.set_cell_item(cell, item_id)
-		rendered_cells.append(cell)
-
 	var surface_cell := Vector3i(world_x, surface_y, world_z)
 	grid_map.set_cell_item(surface_cell, surface_item)
 	rendered_cells.append(surface_cell)
+
+	for cell in _get_exposed_cliff_cells(world_x, world_z, surface_y):
+		var item_id := stone_item if cell.y < surface_y - 1 else dirt_item
+		grid_map.set_cell_item(cell, item_id)
+		rendered_cells.append(cell)
 
 	if terrain["has_water"]:
 		var water_cell := Vector3i(world_x, water_level, world_z)
@@ -258,6 +258,33 @@ func _render_terrain_column(grid_map: GridMap, world_x: int, world_z: int) -> Ar
 		rendered_cells.append(tree_cell)
 
 	return rendered_cells
+
+
+func _get_exposed_cliff_cells(world_x: int, world_z: int, surface_y: int) -> Array[Vector3i]:
+	var cells_by_key := {}
+	var neighbor_offsets := [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN,
+	]
+
+	for offset in neighbor_offsets:
+		var neighbor := _sample_terrain(world_x + offset.x, world_z + offset.y)
+		var neighbor_y: int = neighbor["surface_y"]
+		if neighbor_y >= surface_y - 1:
+			continue
+
+		var lowest_y := maxi(neighbor_y + 1, surface_y - max_visible_cliff_depth)
+		for y in range(lowest_y, surface_y):
+			var cell := Vector3i(world_x, y, world_z)
+			cells_by_key[cell] = cell
+
+	var exposed_cells: Array[Vector3i] = []
+	for cell in cells_by_key.values():
+		exposed_cells.append(cell)
+
+	return exposed_cells
 
 
 func _sample_terrain(world_x: int, world_z: int) -> Dictionary:

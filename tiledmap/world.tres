@@ -310,7 +310,7 @@ roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_clean_grass"]
 material = SubResource("StandardMaterial3D_clean_grass")
-size = Vector3(0.98, 0.04, 0.98)
+size = Vector3(1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clean_dirt"]
 albedo_color = Color(0.43, 0.32, 0.22, 1)
@@ -318,7 +318,7 @@ roughness = 0.95
 
 [sub_resource type="BoxMesh" id="BoxMesh_clean_dirt"]
 material = SubResource("StandardMaterial3D_clean_dirt")
-size = Vector3(0.98, 0.04, 0.98)
+size = Vector3(1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clean_stone"]
 albedo_color = Color(0.36, 0.38, 0.37, 1)
@@ -326,7 +326,7 @@ roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_clean_stone"]
 material = SubResource("StandardMaterial3D_clean_stone")
-size = Vector3(0.98, 0.04, 0.98)
+size = Vector3(1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
 transparency = 1
@@ -395,22 +395,22 @@ item/5/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 
 item/5/navigation_layers = 1
 item/6/name = "CleanGrass"
 item/6/mesh = SubResource("BoxMesh_clean_grass")
-item/6/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
-item/6/mesh_cast_shadow = 1
+item/6/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+item/6/mesh_cast_shadow = 0
 item/6/shapes = []
 item/6/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/6/navigation_layers = 1
 item/7/name = "CleanDirt"
 item/7/mesh = SubResource("BoxMesh_clean_dirt")
-item/7/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
-item/7/mesh_cast_shadow = 1
+item/7/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+item/7/mesh_cast_shadow = 0
 item/7/shapes = []
 item/7/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/7/navigation_layers = 1
 item/8/name = "CleanStone"
 item/8/mesh = SubResource("BoxMesh_clean_stone")
-item/8/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
-item/8/mesh_cast_shadow = 1
+item/8/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+item/8/mesh_cast_shadow = 0
 item/8/shapes = []
 item/8/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 item/8/navigation_layers = 1
