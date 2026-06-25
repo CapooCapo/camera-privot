@@ -19,6 +19,9 @@ extends Node
 @export_range(0.0, 1.0, 0.01) var lake_threshold := 0.20
 @export_range(0.0, 1.0, 0.01) var dirt_surface_chance := 0.12
 @export var spawn_protection_radius := 24
+@export var show_block_grid := true
+@export var block_grid_color := Color(0.015, 0.025, 0.015, 0.55)
+@export var block_grid_y_offset := 0.018
 
 @export var grass_item := 6
 @export var dirt_item := 7
@@ -36,6 +39,8 @@ var loaded_chunks := {}
 var rendered_cells_by_chunk := {}
 var saved_cells_by_chunk := {}
 var stream_time := 0.0
+var block_grid_overlay: MeshInstance3D
+var block_grid_material: StandardMaterial3D
 
 
 func generate(grid_map: GridMap):
@@ -46,6 +51,7 @@ func generate(grid_map: GridMap):
 		loaded_chunks.clear()
 		rendered_cells_by_chunk.clear()
 
+	_ensure_block_grid_overlay(grid_map)
 	update_stream(grid_map, 0.0, true)
 
 
@@ -56,14 +62,20 @@ func update_stream(grid_map: GridMap, delta: float, force := false):
 
 	stream_time = 0.0
 	var wanted_chunks := _get_wanted_chunks(grid_map)
+	var changed := false
 
 	for chunk_coord in wanted_chunks.keys():
 		if not loaded_chunks.has(chunk_coord):
 			_load_chunk(grid_map, chunk_coord)
+			changed = true
 
 	for chunk_coord in loaded_chunks.keys():
 		if not wanted_chunks.has(chunk_coord):
 			_unload_chunk(grid_map, chunk_coord)
+			changed = true
+
+	if changed:
+		_rebuild_block_grid_overlay(grid_map)
 
 
 func set_runtime_cell(grid_map: GridMap, cell: Vector3i, item_id: int):
@@ -281,6 +293,71 @@ func _render_terrain_column(grid_map: GridMap, world_x: int, world_z: int) -> Ar
 		rendered_cells.append(tree_cell)
 
 	return rendered_cells
+
+
+func _ensure_block_grid_overlay(grid_map: GridMap):
+	if block_grid_overlay != null:
+		return
+
+	block_grid_overlay = MeshInstance3D.new()
+	block_grid_overlay.name = "BlockGridOverlay"
+	block_grid_overlay.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+	block_grid_material = StandardMaterial3D.new()
+	block_grid_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	block_grid_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	block_grid_material.albedo_color = block_grid_color
+	block_grid_overlay.material_override = block_grid_material
+	grid_map.add_child(block_grid_overlay)
+
+
+func _rebuild_block_grid_overlay(grid_map: GridMap):
+	_ensure_block_grid_overlay(grid_map)
+	block_grid_overlay.visible = show_block_grid
+	if not show_block_grid:
+		block_grid_overlay.mesh = null
+		return
+
+	block_grid_material.albedo_color = block_grid_color
+	var vertices := PackedVector3Array()
+
+	for rendered_cells in rendered_cells_by_chunk.values():
+		for cell in rendered_cells:
+			var item_id := grid_map.get_cell_item(cell)
+			if item_id != grass_item and item_id != dirt_item and item_id != stone_item and item_id != water_item:
+				continue
+			_add_block_top_outline(vertices, grid_map, cell)
+
+	var arrays := []
+	arrays.resize(Mesh.ARRAY_MAX)
+	arrays[Mesh.ARRAY_VERTEX] = vertices
+
+	var mesh := ArrayMesh.new()
+	if not vertices.is_empty():
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_LINES, arrays)
+	block_grid_overlay.mesh = mesh
+
+
+func _add_block_top_outline(vertices: PackedVector3Array, grid_map: GridMap, cell: Vector3i):
+	var center := grid_map.map_to_local(cell)
+	var y := center.y + block_grid_y_offset
+	var min_x := center.x - grid_map.cell_size.x * 0.5
+	var max_x := center.x + grid_map.cell_size.x * 0.5
+	var min_z := center.z - grid_map.cell_size.z * 0.5
+	var max_z := center.z + grid_map.cell_size.z * 0.5
+	var a := Vector3(min_x, y, min_z)
+	var b := Vector3(max_x, y, min_z)
+	var c := Vector3(max_x, y, max_z)
+	var d := Vector3(min_x, y, max_z)
+
+	vertices.append(a)
+	vertices.append(b)
+	vertices.append(b)
+	vertices.append(c)
+	vertices.append(c)
+	vertices.append(d)
+	vertices.append(d)
+	vertices.append(a)
 
 
 func _get_exposed_cliff_cells(world_x: int, world_z: int, surface_y: int) -> Array[Vector3i]:
