@@ -20,7 +20,8 @@ func _ready():
 	terrain_generator.generate(grid_map)
 
 
-func _process(_delta):
+func _process(delta):
+	terrain_generator.update_stream(grid_map, delta)
 	_update_preview()
 
 
@@ -46,7 +47,7 @@ func place_block_at_mouse(mouse_position: Vector2 = Vector2(-1.0, -1.0)):
 
 	var cell: Vector3i = target["place_cell"]
 	if placement_rules.can_place_block(grid_map, cell):
-		grid_map.set_cell_item(cell, placement_rules.block_item)
+		terrain_generator.set_runtime_cell(grid_map, cell, placement_rules.block_item)
 
 
 func delete_block_at_mouse(mouse_position: Vector2 = Vector2(-1.0, -1.0)):
@@ -56,7 +57,7 @@ func delete_block_at_mouse(mouse_position: Vector2 = Vector2(-1.0, -1.0)):
 
 	var cell: Vector3i = target["delete_cell"]
 	if cell.y > 0:
-		grid_map.set_cell_item(cell, GridMap.INVALID_CELL_ITEM)
+		terrain_generator.set_runtime_cell(grid_map, cell, GridMap.INVALID_CELL_ITEM)
 
 
 func _update_preview():
