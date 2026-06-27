@@ -1,11 +1,15 @@
 class_name BuildGrid
 extends Node
 
+signal build_mode_changed(enabled: bool)
+
 @export var grid_map_path: NodePath = ^"../GridMap"
 @export var terrain_generator_path: NodePath = ^"TerrainGenerator"
 @export var placement_rules_path: NodePath = ^"PlacementRules"
 @export var targeter_path: NodePath = ^"Targeting"
 @export var preview_path: NodePath = ^"Preview"
+@export var build_mode_enabled := false
+@export var build_mode_toggle_key := KEY_B
 
 @onready var grid_map: GridMap = get_node(grid_map_path)
 @onready var terrain_generator: Node = get_node(terrain_generator_path)
@@ -22,10 +26,22 @@ func _ready():
 
 func _process(delta):
 	terrain_generator.update_stream(grid_map, delta)
-	_update_preview()
+	if build_mode_enabled:
+		_update_preview()
+	else:
+		preview.hide_preview()
 
 
 func _unhandled_input(event):
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == build_mode_toggle_key:
+			set_build_mode_enabled(not build_mode_enabled)
+			get_viewport().set_input_as_handled()
+			return
+
+	if not build_mode_enabled:
+		return
+
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MouseButton.MOUSE_BUTTON_LEFT:
 			place_block_at_mouse(event.position)
@@ -38,6 +54,20 @@ func _unhandled_input(event):
 		if event.keycode == KEY_X or event.keycode == KEY_DELETE:
 			delete_block_at_mouse()
 			get_viewport().set_input_as_handled()
+
+
+func set_build_mode_enabled(enabled: bool):
+	if build_mode_enabled == enabled:
+		return
+
+	build_mode_enabled = enabled
+	if not build_mode_enabled:
+		preview.hide_preview()
+	build_mode_changed.emit(build_mode_enabled)
+
+
+func is_build_mode_enabled() -> bool:
+	return build_mode_enabled
 
 
 func place_block_at_mouse(mouse_position: Vector2 = Vector2(-1.0, -1.0)):

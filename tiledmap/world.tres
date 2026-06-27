@@ -318,7 +318,6 @@ roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_clean_grass"]
 material = SubResource("StandardMaterial3D_clean_grass")
-size = Vector3(1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clean_dirt"]
 albedo_color = Color(0.43, 0.32, 0.22, 1)
@@ -326,7 +325,6 @@ roughness = 0.95
 
 [sub_resource type="BoxMesh" id="BoxMesh_clean_dirt"]
 material = SubResource("StandardMaterial3D_clean_dirt")
-size = Vector3(1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_clean_stone"]
 albedo_color = Color(0.36, 0.38, 0.37, 1)
@@ -334,7 +332,6 @@ roughness = 0.9
 
 [sub_resource type="BoxMesh" id="BoxMesh_clean_stone"]
 material = SubResource("StandardMaterial3D_clean_stone")
-size = Vector3(1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_water"]
 transparency = 1

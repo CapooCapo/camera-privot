@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cpx6sglq3cpq2"]
+
+[ext_resource type="PackedScene" uid="uid://ctd681n7f2c7y" path="res://Character/Man_01_02.fbx" id="1_lgt04"]
+[ext_resource type="Texture2D" uid="uid://bexrc1ymfb6yj" path="res://Character/Color_B_Gradient.jpg" id="2_schp4"]
+[ext_resource type="Script" path="res://Character/Player.gd" id="3_player"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_schp4"]
+radius = 0.35
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pusnx"]
+albedo_texture = ExtResource("2_schp4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssuvf"]
+albedo_texture = ExtResource("2_schp4")
+
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_pusnx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ssuvf"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=34599356]
+script = ExtResource("3_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=726721089]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_schp4")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=442923]
+
+[node name="Man_01_02" parent="Node3D" unique_id=1437637336 instance=ExtResource("1_lgt04")]
+
+[node name="Cube" parent="Node3D/Man_01_02/metarig/Skeleton3D" parent_id_path=PackedInt32Array(1437637336, 2097966809) index="0" unique_id=1435631630]
+material_override = SubResource("StandardMaterial3D_pusnx")
+material_overlay = SubResource("StandardMaterial3D_ssuvf")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1723572487]
+
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1995293792]
+tree_root = SubResource("AnimationRootNode_pusnx")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=907572353]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1738396003]
+shape = SubResource("BoxShape3D_ssuvf")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=1978025177]
+
+[node name="RayCast3D" type="RayCast3D" parent="." unique_id=802098768]
+
+[editable path="Node3D/Man_01_02"]

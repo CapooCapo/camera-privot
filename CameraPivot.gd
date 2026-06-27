@@ -14,6 +14,11 @@ extends Node3D
 
 @export var yaw_degrees := 45.0
 @export var pitch_degrees := 55.0
+@export var follow_target_path: NodePath = ^"../Player"
+@export var build_grid_path: NodePath = ^"../BuildGrid"
+@export var follow_target_height_offset := 1.5
+@export var follow_lerp_speed := 12.0
+@export var build_pan_radius := 10.0
 @export var follow_terrain_height := true
 @export var terrain_grid_path: NodePath = ^"../GridMap"
 @export var terrain_height_offset := 2.0
@@ -22,39 +27,25 @@ extends Node3D
 @export var terrain_sample_max_y := 32
 
 @onready var camera = $Camera3D
+@onready var follow_target: Node3D = get_node_or_null(follow_target_path)
+@onready var build_grid: Node = get_node_or_null(build_grid_path)
 @onready var terrain_grid: GridMap = get_node_or_null(terrain_grid_path)
 
 var is_rotating_with_mouse := false
+var build_pan_offset := Vector3.ZERO
 
 func _ready():
 	camera.current = true
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	camera.size = clamp(camera.size, min_zoom, max_zoom)
+	_update_follow_position(0.0)
 	_update_camera_transform()
 
 func _process(delta):
-	var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	var key_dir := Vector2.ZERO
-
-	if Input.is_key_pressed(KEY_D):
-		key_dir.x += 1.0
-	if Input.is_key_pressed(KEY_A):
-		key_dir.x -= 1.0
-	if Input.is_key_pressed(KEY_S):
-		key_dir.y += 1.0
-	if Input.is_key_pressed(KEY_W):
-		key_dir.y -= 1.0
-
-	input_dir += key_dir
-	if input_dir.length() > 1.0:
-		input_dir = input_dir.normalized()
-
-	var yaw_basis = Basis(Vector3.UP, deg_to_rad(yaw_degrees))
-	var right = yaw_basis.x
-	var forward = -yaw_basis.z
-	var move_direction = (right * input_dir.x + forward * -input_dir.y).normalized()
-	position += move_direction * move_speed * delta
-	_update_terrain_height(delta)
+	if _is_build_mode_enabled():
+		_update_build_pan_offset(delta)
+	else:
+		build_pan_offset = Vector3.ZERO
 
 	var yaw_input := 0
 	var pitch_input := 0
@@ -79,6 +70,8 @@ func _process(delta):
 
 	if yaw_input != 0 or pitch_input != 0:
 		_update_camera_transform()
+
+	_update_follow_position(delta)
 
 func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -112,6 +105,56 @@ func _update_camera_transform():
 	camera.look_at(global_position, Vector3.UP)
 
 
+func _update_build_pan_offset(delta: float):
+	var input_dir := _get_pan_input()
+	if input_dir == Vector2.ZERO:
+		return
+
+	var yaw_basis := Basis(Vector3.UP, deg_to_rad(yaw_degrees))
+	var right := yaw_basis.x
+	var forward := -yaw_basis.z
+	var move_direction := right * input_dir.x + forward * -input_dir.y
+	if move_direction.length_squared() <= 0.0001:
+		return
+
+	build_pan_offset += move_direction.normalized() * move_speed * delta
+	build_pan_offset.y = 0.0
+	if build_pan_offset.length() > build_pan_radius:
+		build_pan_offset = build_pan_offset.normalized() * build_pan_radius
+
+
+func _get_pan_input() -> Vector2:
+	var input_dir := Vector2.ZERO
+
+	if Input.is_key_pressed(KEY_D):
+		input_dir.x += 1.0
+	if Input.is_key_pressed(KEY_A):
+		input_dir.x -= 1.0
+	if Input.is_key_pressed(KEY_S):
+		input_dir.y += 1.0
+	if Input.is_key_pressed(KEY_W):
+		input_dir.y -= 1.0
+
+	return input_dir.normalized() if input_dir.length() > 1.0 else input_dir
+
+
+func _update_follow_position(delta: float):
+	if follow_target == null:
+		follow_target = get_node_or_null(follow_target_path)
+
+	if follow_target != null:
+		var target_position := follow_target.global_position
+		target_position.y += follow_target_height_offset
+		target_position += build_pan_offset
+
+		var follow_weight := 1.0 if delta <= 0.0 else clampf(delta * follow_lerp_speed, 0.0, 1.0)
+		global_position = global_position.lerp(target_position, follow_weight)
+		_update_camera_transform()
+		return
+
+	_update_terrain_height(delta)
+
+
 func _update_terrain_height(delta: float):
 	if not follow_terrain_height or terrain_grid == null:
 		return
@@ -140,3 +183,12 @@ func _get_top_terrain_y(cell_x: int, cell_z: int) -> int:
 			top_y = y
 
 	return top_y
+
+
+func _is_build_mode_enabled() -> bool:
+	if build_grid == null:
+		build_grid = get_node_or_null(build_grid_path)
+	if build_grid == null or not build_grid.has_method("is_build_mode_enabled"):
+		return false
+
+	return build_grid.is_build_mode_enabled()
