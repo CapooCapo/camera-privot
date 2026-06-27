@@ -8,6 +8,7 @@ signal build_mode_changed(enabled: bool)
 @export var placement_rules_path: NodePath = ^"PlacementRules"
 @export var targeter_path: NodePath = ^"Targeting"
 @export var preview_path: NodePath = ^"Preview"
+@export var player_path: NodePath = ^"../Player"
 @export var build_mode_enabled := false
 @export var build_mode_toggle_key := KEY_B
 
@@ -16,6 +17,7 @@ signal build_mode_changed(enabled: bool)
 @onready var placement_rules: Node = get_node(placement_rules_path)
 @onready var targeter: Node = get_node(targeter_path)
 @onready var preview: Node = get_node(preview_path)
+@onready var player: Node = get_node_or_null(player_path)
 
 
 func _ready():
@@ -76,7 +78,7 @@ func place_block_at_mouse(mouse_position: Vector2 = Vector2(-1.0, -1.0)):
 		return
 
 	var cell: Vector3i = target["place_cell"]
-	if placement_rules.can_place_block(grid_map, cell):
+	if _can_place_block(cell):
 		terrain_generator.set_runtime_cell(grid_map, cell, placement_rules.block_item)
 
 
@@ -101,5 +103,23 @@ func _update_preview():
 		grid_map,
 		placement_rules,
 		cell,
-		placement_rules.can_place_block(grid_map, cell)
+		_can_place_block(cell)
 	)
+
+
+func _can_place_block(cell: Vector3i) -> bool:
+	if not placement_rules.can_place_block(grid_map, cell):
+		return false
+	if _cell_overlaps_player_body(cell):
+		return false
+
+	return true
+
+
+func _cell_overlaps_player_body(cell: Vector3i) -> bool:
+	if player == null:
+		player = get_node_or_null(player_path)
+	if player == null or not player.has_method("would_block_body_cell"):
+		return false
+
+	return player.would_block_body_cell(cell)

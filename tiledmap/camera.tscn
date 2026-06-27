@@ -28,6 +28,7 @@ projection = 1
 size = 5.0
 
 [node name="Player" parent="." unique_id=1534766189 instance=ExtResource("8_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [node name="GridMap" type="GridMap" parent="." unique_id=1029862321]
 mesh_library = ExtResource("2_pdwwk")
