@@ -1,3 +1,4 @@
+@tool
 extends CharacterBody3D
 
 @export var move_speed := 5.0
@@ -19,6 +20,11 @@ extends CharacterBody3D
 @export var camera_pivot_path: NodePath = ^"../CameraPivot"
 @export var build_grid_path: NodePath = ^"../BuildGrid"
 @export var visual_root_path: NodePath = ^"Node3D"
+@export var animation_player_path: NodePath = ^"AnimationPlayer"
+@export var model_root_path: NodePath = ^"Node3D/Man_01_02"
+@export var idle_animation := &"Idle_breath"
+@export var walk_animation := &"Walk"
+@export var animation_blend_time := 0.15
 @export var floor_items: Array[int] = [5, 6, 7, 8, 9]
 @export var blocking_items: Array[int] = [5, 6, 7, 8, 10]
 
@@ -26,17 +32,38 @@ extends CharacterBody3D
 @onready var camera_pivot: Node3D = get_node_or_null(camera_pivot_path)
 @onready var build_grid: Node = get_node_or_null(build_grid_path)
 @onready var visual_root: Node3D = get_node_or_null(visual_root_path)
+@onready var animation_player: AnimationPlayer = get_node_or_null(animation_player_path)
+@onready var model_root: Node = get_node_or_null(model_root_path)
 
 var spawn_snap_pending := true
 var vertical_speed := 0.0
+var animations_sanitized := false
+var resolved_idle_animation := &""
+var resolved_walk_animation := &""
 
 
 func _ready():
 	_resolve_nodes()
+	_setup_animation_player()
+	if Engine.is_editor_hint():
+		set_process(true)
+		set_physics_process(false)
+		return
+	_play_animation(resolved_idle_animation)
 	_try_snap_to_spawn_surface()
 
 
+func _process(_delta):
+	if Engine.is_editor_hint():
+		_resolve_nodes()
+		_sanitize_animation_library()
+		_resolve_animation_names()
+
+
 func _physics_process(delta):
+	if Engine.is_editor_hint():
+		return
+
 	_resolve_nodes()
 	if grid_map != null and spawn_snap_pending:
 		_try_snap_to_spawn_surface()
@@ -67,6 +94,7 @@ func _physics_process(delta):
 		global_position = next_position
 
 	_update_visual_rotation(move_direction, delta)
+	_update_animation()
 
 
 func _resolve_nodes():
@@ -76,6 +104,129 @@ func _resolve_nodes():
 		camera_pivot = get_node_or_null(camera_pivot_path)
 	if build_grid == null:
 		build_grid = get_node_or_null(build_grid_path)
+	if animation_player == null:
+		animation_player = get_node_or_null(animation_player_path)
+	if model_root == null:
+		model_root = get_node_or_null(model_root_path)
+
+
+func _setup_animation_player():
+	if animation_player == null:
+		return
+
+	_sanitize_animation_library()
+	_resolve_animation_names()
+
+
+func _sanitize_animation_library():
+	if animations_sanitized and not Engine.is_editor_hint():
+		return
+	if animation_player == null:
+		return
+	if model_root == null:
+		return
+
+	for animation_name in animation_player.get_animation_list():
+		var animation := animation_player.get_animation(animation_name)
+		if animation == null:
+			continue
+
+		animation.loop_mode = Animation.LOOP_LINEAR
+		_sanitize_animation_tracks(animation)
+
+	if not Engine.is_editor_hint():
+		animations_sanitized = true
+
+
+func _resolve_animation_names():
+	resolved_idle_animation = _get_existing_animation_name(idle_animation, [&"Idle_breath", &"Idle"])
+	resolved_walk_animation = _get_existing_animation_name(walk_animation, [&"Walk", &"walk"])
+
+
+func _get_existing_animation_name(preferred_name: StringName, fallback_names: Array[StringName]) -> StringName:
+	if animation_player == null:
+		return &""
+	if animation_player.has_animation(preferred_name):
+		return preferred_name
+
+	for fallback_name in fallback_names:
+		if animation_player.has_animation(fallback_name):
+			return fallback_name
+
+	return &""
+
+
+func _sanitize_animation_tracks(animation: Animation):
+	for track_index in range(animation.get_track_count()):
+		var track_path := String(animation.track_get_path(track_index))
+		var remapped_path := _get_existing_bone_track_path(track_path)
+		if remapped_path.is_empty():
+			animation.track_set_enabled(track_index, false)
+			continue
+
+		if remapped_path != track_path:
+			animation.track_set_path(track_index, NodePath(remapped_path))
+		animation.track_set_enabled(track_index, true)
+
+
+func _get_existing_bone_track_path(track_path: String) -> String:
+	var separator_index := track_path.find(":")
+	if separator_index == -1:
+		return ""
+
+	var bone_name := track_path.substr(separator_index + 1)
+	if bone_name.is_empty():
+		return ""
+
+	var skeleton := _find_skeleton_with_bone(bone_name)
+	if skeleton == null:
+		return ""
+
+	var skeleton_path := String(model_root.get_path_to(skeleton))
+	return "%s:%s" % [skeleton_path, bone_name]
+
+
+func _find_skeleton_with_bone(bone_name: String) -> Skeleton3D:
+	if model_root == null:
+		return null
+
+	return _find_skeleton_with_bone_recursive(model_root, bone_name)
+
+
+func _find_skeleton_with_bone_recursive(node: Node, bone_name: String) -> Skeleton3D:
+	if node is Skeleton3D and node.find_bone(bone_name) != -1:
+		return node
+
+	for child in node.get_children():
+		var skeleton := _find_skeleton_with_bone_recursive(child, bone_name)
+		if skeleton != null:
+			return skeleton
+
+	return null
+
+
+func _update_animation():
+	if animation_player == null:
+		return
+	if String(resolved_idle_animation).is_empty() or String(resolved_walk_animation).is_empty():
+		_resolve_animation_names()
+
+	var horizontal_speed_sq := velocity.x * velocity.x + velocity.z * velocity.z
+	if horizontal_speed_sq > 0.01:
+		_play_animation(resolved_walk_animation)
+	else:
+		_play_animation(resolved_idle_animation)
+
+
+func _play_animation(animation_name: StringName):
+	if String(animation_name).is_empty():
+		return
+	if animation_player.current_animation == animation_name:
+		return
+	if not animation_player.has_animation(animation_name):
+		return
+
+	animation_player.play(animation_name, animation_blend_time)
 
 
 func _try_move_axis(current_position: Vector3, axis_delta: Vector3) -> Vector3:

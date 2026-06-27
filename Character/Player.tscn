@@ -1,20 +1,19 @@
 [gd_scene format=3 uid="uid://cpx6sglq3cpq2"]
 
 [ext_resource type="PackedScene" uid="uid://ctd681n7f2c7y" path="res://Character/Man_01_02.fbx" id="1_lgt04"]
-[ext_resource type="Texture2D" uid="uid://bexrc1ymfb6yj" path="res://Character/Color_B_Gradient.jpg" id="2_schp4"]
-[ext_resource type="Script" path="res://Character/Player.gd" id="3_player"]
+[ext_resource type="Script" uid="uid://drvfwxvru2o61" path="res://Character/Player.gd" id="3_player"]
+[ext_resource type="Animation" uid="uid://05iu6euamr3u" path="res://Animation/Idle_breath.res" id="3_ssuvf"]
+[ext_resource type="Animation" uid="uid://wu0rydiusnlr" path="res://Animation/walk.res" id="4_68rl5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_schp4"]
 radius = 0.35
 height = 1.8
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pusnx"]
-albedo_texture = ExtResource("2_schp4")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ssuvf"]
-albedo_texture = ExtResource("2_schp4")
-
-[sub_resource type="AnimationRootNode" id="AnimationRootNode_pusnx"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pusnx"]
+_data = {
+&"Idle_breath": ExtResource("3_ssuvf"),
+&"Walk": ExtResource("4_68rl5")
+}
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ssuvf"]
 
@@ -29,14 +28,61 @@ shape = SubResource("CapsuleShape3D_schp4")
 
 [node name="Man_01_02" parent="Node3D" unique_id=1437637336 instance=ExtResource("1_lgt04")]
 
-[node name="Cube" parent="Node3D/Man_01_02/metarig/Skeleton3D" parent_id_path=PackedInt32Array(1437637336, 2097966809) index="0" unique_id=1435631630]
-material_override = SubResource("StandardMaterial3D_pusnx")
-material_overlay = SubResource("StandardMaterial3D_ssuvf")
+[node name="GeneralSkeleton" parent="Node3D/Man_01_02/metarig" parent_id_path=PackedInt32Array(1437637336, 269288297) index="0" unique_id=1673184318]
+bones/1/rotation = Quaternion(-0.054523006, -0.0013995927, 0.016707256, 0.9983718)
+bones/2/rotation = Quaternion(-0.033889793, -0.016807456, 0.002957472, 0.99927986)
+bones/3/rotation = Quaternion(-0.03726482, -0.018898435, -0.003154432, 0.9991218)
+bones/4/rotation = Quaternion(0.39653042, 0.003099652, -0.004543543, 0.91800517)
+bones/5/rotation = Quaternion(-0.29421043, 0.007009441, -0.01312095, 0.95562494)
+bones/7/rotation = Quaternion(-0.054928213, -0.10010173, 0.97732043, -0.17834647)
+bones/8/rotation = Quaternion(0.26274267, 0.08272374, -0.008115908, 0.96127903)
+bones/9/rotation = Quaternion(-0.15794572, 0.05583198, -0.15029874, 0.974344)
+bones/10/rotation = Quaternion(0.13359638, 0.7343373, -0.056810744, 0.6630787)
+bones/11/rotation = Quaternion(0.2836129, -0.010999284, -0.0011767417, 0.95887506)
+bones/12/rotation = Quaternion(0.12462875, -0.025142847, -0.006256698, 0.9918651)
+bones/14/rotation = Quaternion(0.10423794, 0.9707868, 0.2153606, 0.018090082)
+bones/15/rotation = Quaternion(0.14233455, -0.025331814, 0.018712984, 0.9893174)
+bones/16/rotation = Quaternion(0.022641635, -0.0010078485, -0.022578312, 0.99948823)
+bones/18/rotation = Quaternion(0.16792464, 0.7039216, -0.11273632, 0.68087167)
+bones/19/rotation = Quaternion(0.1794048, -0.043878596, -0.015062058, 0.982681)
+bones/20/rotation = Quaternion(0.13024598, -0.027228002, -0.023930447, 0.99081886)
+bones/22/rotation = Quaternion(0.19511604, 0.648032, -0.15821572, 0.7189939)
+bones/23/rotation = Quaternion(0.12437808, -0.027282938, -0.031466924, 0.9913605)
+bones/24/rotation = Quaternion(0.09169894, -0.04845853, -0.029007519, 0.9941839)
+bones/26/rotation = Quaternion(0.19262514, 0.58211946, -0.2681854, 0.74304044)
+bones/27/rotation = Quaternion(0.15944073, -0.003538182, -0.03080376, 0.98672044)
+bones/28/rotation = Quaternion(0.061642025, -0.013499866, -0.026968362, 0.9976426)
+bones/30/rotation = Quaternion(0.13925737, -0.073331855, 0.9775331, 0.14021035)
+bones/31/rotation = Quaternion(0.23562747, -0.08312226, 0.0073414193, 0.9682544)
+bones/32/rotation = Quaternion(-0.16737042, 0.018153455, 0.04718477, 0.98459697)
+bones/33/rotation = Quaternion(0.030100703, -0.7407448, 0.013813334, 0.67096955)
+bones/34/rotation = Quaternion(0.33000016, 0.010816787, 0.001803209, 0.94391716)
+bones/35/rotation = Quaternion(0.08401251, 0.025216037, 0.0036070931, 0.9961391)
+bones/37/rotation = Quaternion(-0.13329852, 0.979682, 0.09699134, 0.11422534)
+bones/38/rotation = Quaternion(0.013516485, 0.010540112, -0.024979021, 0.99954104)
+bones/39/rotation = Quaternion(-0.0060528847, 2.4744853e-05, 0.030408168, 0.9995192)
+bones/41/rotation = Quaternion(0.03509178, -0.72050214, 0.043091584, 0.69122237)
+bones/42/rotation = Quaternion(0.24846537, 0.04306432, 0.026794408, 0.96731204)
+bones/43/rotation = Quaternion(0.045290124, 0.038486585, 0.0103623355, 0.9981784)
+bones/45/rotation = Quaternion(0.100889415, -0.66779816, 0.09946238, 0.73073536)
+bones/46/rotation = Quaternion(0.15453164, 0.02447861, 0.03935082, 0.98690045)
+bones/47/rotation = Quaternion(0.06838474, 0.064586885, 0.024784101, 0.99525774)
+bones/49/rotation = Quaternion(0.15610167, -0.5919054, 0.2266085, 0.75758094)
+bones/50/rotation = Quaternion(0.13563381, 0.0137528, 0.055250786, 0.98912174)
+bones/51/rotation = Quaternion(0.061251033, 0.013496973, 0.026865687, 0.9976695)
+bones/53/rotation = Quaternion(0.9834657, 0.011522038, -0.03986104, 0.1762773)
+bones/54/rotation = Quaternion(0.26696655, -0.05794738, -0.04403279, 0.9609537)
+bones/55/rotation = Quaternion(-0.46633855, -0.055325214, 0.026241904, 0.88248456)
+bones/56/rotation = Quaternion(0.0057103373, 0.92503375, -0.3798349, -0.002342889)
+bones/58/rotation = Quaternion(0.9765062, -0.022208113, 0.1316562, 0.16914235)
+bones/59/rotation = Quaternion(0.2144478, 0.014652576, 0.04145096, 0.9757455)
+bones/60/rotation = Quaternion(-0.4130639, 0.053166334, -0.065054566, 0.9068184)
+bones/61/rotation = Quaternion(-0.005709653, 0.92491424, -0.3801259, 0.0023447091)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1723572487]
-
-[node name="AnimationTree" type="AnimationTree" parent="." unique_id=1995293792]
-tree_root = SubResource("AnimationRootNode_pusnx")
+root_node = NodePath("../Node3D/Man_01_02")
+libraries/ = SubResource("AnimationLibrary_pusnx")
+autoplay = &"Idle_breath"
 
 [node name="Area3D" type="Area3D" parent="." unique_id=907572353]
 
