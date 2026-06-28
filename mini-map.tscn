@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cngwopkhm3y4m"]
+
+[ext_resource type="Script" path="res://ui/Minimap3D.gd" id="1_minimap"]
+
+[node name="Minimap" type="PanelContainer" unique_id=1999612318]
+offset_left = -304.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 230.0
+script = ExtResource("1_minimap")

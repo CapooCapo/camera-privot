@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://b5jsnnq6o5vn5"]
+[gd_scene load_steps=10 format=3 uid="uid://b5jsnnq6o5vn5"]
 
 [ext_resource type="MeshLibrary" uid="uid://c0hvcka0umrsw" path="res://tiledmap/world.tres" id="2_pdwwk"]
 [ext_resource type="Script" uid="uid://yuk8bk8dhu3i" path="res://CameraPivot.gd" id="2_v6hvl"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://dvh7yk2xudv58" path="res://tiledmap/GridTargeting.gd" id="6_target"]
 [ext_resource type="Script" uid="uid://ipa7ug85dsnv" path="res://tiledmap/GridBuildPreview.gd" id="7_preview"]
 [ext_resource type="PackedScene" uid="uid://cpx6sglq3cpq2" path="res://Character/Player.tscn" id="8_player"]
+[ext_resource type="PackedScene" uid="uid://djf7keuxeyyoh" path="res://UI.tscn" id="9_ui"]
 
 [node name="Node3D" type="Node3D" unique_id=408228230]
 
@@ -56,3 +57,5 @@ script = ExtResource("7_preview")
 [node name="BlockPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=1280919936]
 
 [node name="FootprintPreview" type="MeshInstance3D" parent="BuildGrid/Preview" unique_id=-441902511]
+
+[node name="UI" parent="." instance=ExtResource("9_ui")]

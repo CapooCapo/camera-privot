@@ -25,6 +25,8 @@ extends Node3D
 @export var terrain_height_lerp_speed := 8.0
 @export var terrain_sample_min_y := 0
 @export var terrain_sample_max_y := 32
+@export var hide_mouse_during_gameplay := true
+@export var show_mouse_key := KEY_ALT
 
 @onready var camera = $Camera3D
 @onready var follow_target: Node3D = get_node_or_null(follow_target_path)
@@ -38,10 +40,13 @@ func _ready():
 	camera.current = true
 	camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	camera.size = clamp(camera.size, min_zoom, max_zoom)
+	_update_mouse_visibility()
 	_update_follow_position(0.0)
 	_update_camera_transform()
 
 func _process(delta):
+	_update_mouse_visibility()
+
 	if _is_build_mode_enabled():
 		_update_build_pan_offset(delta)
 	else:
@@ -183,6 +188,18 @@ func _get_top_terrain_y(cell_x: int, cell_z: int) -> int:
 			top_y = y
 
 	return top_y
+
+
+func _update_mouse_visibility():
+	if not hide_mouse_during_gameplay:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		return
+
+	Input.mouse_mode = (
+		Input.MOUSE_MODE_VISIBLE
+		if Input.is_key_pressed(show_mouse_key)
+		else Input.MOUSE_MODE_HIDDEN
+	)
 
 
 func _is_build_mode_enabled() -> bool:

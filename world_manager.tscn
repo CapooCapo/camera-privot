@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://tlpidqsymcr"]
 
 [ext_resource type="Script" uid="uid://byhcs10g4ho5g" path="res://tiledmap/BuildGrid.gd" id="2_37kqa"]
-[ext_resource type="Script" path="res://tiledmap/GridTerrainGenerator.gd" id="3_terrain"]
-[ext_resource type="Script" path="res://tiledmap/GridPlacementRules.gd" id="4_rules"]
-[ext_resource type="Script" path="res://tiledmap/GridTargeting.gd" id="5_target"]
-[ext_resource type="Script" path="res://tiledmap/GridBuildPreview.gd" id="6_preview"]
+[ext_resource type="Script" uid="uid://jwveg1b4cjpm" path="res://tiledmap/GridTerrainGenerator.gd" id="3_terrain"]
+[ext_resource type="Script" uid="uid://p7kt0ej7i5du" path="res://tiledmap/GridPlacementRules.gd" id="4_rules"]
+[ext_resource type="Script" uid="uid://dvh7yk2xudv58" path="res://tiledmap/GridTargeting.gd" id="5_target"]
+[ext_resource type="Script" uid="uid://ipa7ug85dsnv" path="res://tiledmap/GridBuildPreview.gd" id="6_preview"]
 
 [sub_resource type="MeshLibrary" id="MeshLibrary_37kqa"]
 
