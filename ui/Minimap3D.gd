@@ -36,12 +36,13 @@ class MinimapOverlay:
 
 
 @export var player_path: NodePath = ^"../../../Player"
+@export var player_visual_path: NodePath = ^"../../../Player/Node3D"
 @export var camera_pivot_path: NodePath = ^"../../../CameraPivot"
 @export var grid_map_path: NodePath = ^"../../../GridMap"
 @export var viewport_size := Vector2i(256, 154)
-@export_range(10.0, 120.0, 1.0) var orthographic_size := 38.0
-@export_range(20.0, 160.0, 1.0) var camera_height := 72.0
-@export_range(45.0, 88.0, 1.0) var camera_pitch_degrees := 68.0
+@export_range(10.0, 120.0, 1.0) var orthographic_size := 34.0
+@export_range(20.0, 160.0, 1.0) var camera_height := 54.0
+@export_range(35.0, 88.0, 1.0) var camera_pitch_degrees := 50.0
 @export var minimap_yaw_degrees := 45.0
 @export var rotate_with_game_camera := false
 @export var follow_lerp_speed := 14.0
@@ -49,6 +50,7 @@ class MinimapOverlay:
 @export var zoom_step := 4.0
 
 @onready var player: Node3D = get_node_or_null(player_path)
+@onready var player_visual: Node3D = get_node_or_null(player_visual_path)
 @onready var camera_pivot: Node3D = get_node_or_null(camera_pivot_path)
 @onready var grid_map: GridMap = get_node_or_null(grid_map_path)
 
@@ -210,6 +212,10 @@ func _sync_minimap_world():
 func _resolve_scene_nodes():
 	if player == null:
 		player = get_node_or_null(player_path)
+	if player_visual == null:
+		player_visual = get_node_or_null(player_visual_path)
+	if player_visual == null and player != null:
+		player_visual = player.get_node_or_null("Node3D")
 	if camera_pivot == null:
 		camera_pivot = get_node_or_null(camera_pivot_path)
 	if grid_map == null:
@@ -256,7 +262,7 @@ func _update_minimap_camera(delta: float):
 	minimap_camera.size = orthographic_size
 
 	if overlay != null:
-		overlay.set_heading(_get_player_marker_heading(yaw_degrees))
+		overlay.set_heading(_get_player_marker_heading())
 
 
 func _get_focus_position() -> Vector3:
@@ -275,12 +281,29 @@ func _get_minimap_yaw_degrees() -> float:
 	return minimap_yaw_degrees
 
 
-func _get_player_marker_heading(yaw_degrees: float) -> float:
+func _get_player_marker_heading() -> float:
 	if player == null:
 		return 0.0
 
-	var heading := -player.global_transform.basis.get_euler().y - deg_to_rad(yaw_degrees)
-	return heading
+	var forward := _get_player_forward()
+	if forward.length_squared() <= 0.0001:
+		return 0.0
+
+	var marker_position := player.global_position + Vector3.UP * focus_height_offset
+	var screen_center := minimap_camera.unproject_position(marker_position)
+	var screen_forward := minimap_camera.unproject_position(marker_position + forward.normalized() * 2.0)
+	var screen_direction := screen_forward - screen_center
+	if screen_direction.length_squared() <= 0.0001:
+		return 0.0
+
+	return Vector2(0.0, -1.0).angle_to(screen_direction.normalized())
+
+
+func _get_player_forward() -> Vector3:
+	var facing_source := player_visual if player_visual != null else player
+	var forward := facing_source.global_transform.basis.z
+	forward.y = 0.0
+	return forward.normalized()
 
 
 func _on_zoom_in_pressed():
