@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://dbqyog7x1tno7"]
+
+[ext_resource type="PackedScene" uid="uid://cd8mnpn8xqp77" path="res://Assets/Fbx/Tree_temp_climate_001.FBX" id="1_dx4tv"]
+[ext_resource type="Script" uid="uid://b7gjgvmfoku7c" path="res://tiledmap/world/plane/trees/TreeLibrary.gd" id="1_xpp7t"]
+[ext_resource type="PackedScene" uid="uid://cdybvqm7400vg" path="res://Assets/Fbx/Tree_temp_climate_002.FBX" id="2_xpp7t"]
+[ext_resource type="PackedScene" uid="uid://muug5r02ue6v" path="res://Assets/Fbx/Tree_temp_climate_003.FBX" id="3_yp8kl"]
+[ext_resource type="PackedScene" uid="uid://1uirqii7i7yx" path="res://Assets/Fbx/Tree_temp_climate_004.FBX" id="4_x7el7"]
+[ext_resource type="PackedScene" uid="uid://b8e7gjcccmi2r" path="res://Assets/Fbx/Tree_temp_climate_005.FBX" id="5_vxyk7"]
+[ext_resource type="PackedScene" uid="uid://b8cysvepv2vl6" path="res://Assets/Fbx/Tree_temp_climate_006.FBX" id="6_5557u"]
+[ext_resource type="PackedScene" uid="uid://webfjb27dty7" path="res://Assets/Fbx/Tree_temp_climate_007.FBX" id="7_bbu1i"]
+[ext_resource type="PackedScene" uid="uid://chl5f4rf4i46g" path="res://Assets/Fbx/Tree_temp_climate_008.FBX" id="8_kxu84"]
+[ext_resource type="PackedScene" uid="uid://b07nnblbh2gb1" path="res://Assets/Fbx/Tree_temp_climate_009.FBX" id="9_ga5jr"]
+[ext_resource type="PackedScene" uid="uid://dvjabbbddnmb4" path="res://Assets/Fbx/Tree_temp_climate_010.FBX" id="10_f4c8f"]
+[ext_resource type="PackedScene" uid="uid://db8qskmyj745m" path="res://Assets/Fbx/Tree_temp_climate_011.FBX" id="11_t2og5"]
+[ext_resource type="PackedScene" uid="uid://dn0u5e2mi41hp" path="res://Assets/Fbx/Tree_temp_climate_012.FBX" id="12_4udy2"]
+[ext_resource type="PackedScene" uid="uid://bra4vyt2bj7n8" path="res://Assets/Fbx/Tree_temp_climate_013.FBX" id="13_uoblm"]
+[ext_resource type="PackedScene" uid="uid://dvxpaqjiho225" path="res://Assets/Fbx/Tree_temp_climate_014.FBX" id="14_h2mxs"]
+[ext_resource type="PackedScene" uid="uid://2botqwntx116" path="res://Assets/Fbx/Tree_temp_climate_015.FBX" id="15_gfit8"]
+[ext_resource type="PackedScene" uid="uid://bi7cx01prsynh" path="res://Assets/Fbx/Tree_temp_climate_016.FBX" id="16_upx2g"]
+[ext_resource type="PackedScene" uid="uid://8latepjgtm8j" path="res://Assets/Fbx/Tree_temp_climate_017.FBX" id="17_a2v8u"]
+[ext_resource type="PackedScene" uid="uid://cgho0w82l5sk0" path="res://Assets/Fbx/Tree_temp_climate_018.FBX" id="18_t6yfh"]
+[ext_resource type="PackedScene" uid="uid://ewu1k1rngl5a" path="res://Assets/Fbx/Tree_temp_climate_019.FBX" id="19_sdndb"]
+[ext_resource type="PackedScene" uid="uid://c1q7362hsxv02" path="res://Assets/Fbx/Tree_temp_climate_020.FBX" id="20_6eqxi"]
+[ext_resource type="PackedScene" uid="uid://deww76wrulupn" path="res://Assets/Fbx/Tree_temp_climate_021.FBX" id="21_4hjep"]
+
+[node name="TreesContainer" type="Node3D" unique_id=1012451650]
+script = ExtResource("1_xpp7t")
+metadata/_edit_lock_ = true
+
+[node name="Tree_temp_climate_001" parent="." unique_id=162551609 instance=ExtResource("1_dx4tv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 0.7658229)
+
+[node name="Tree_temp_climate_002" parent="." unique_id=981976443 instance=ExtResource("2_xpp7t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.218069, 0, 3.6913452)
+
+[node name="Tree_temp_climate_003" parent="." unique_id=462111365 instance=ExtResource("3_yp8kl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 6.5402665)
+
+[node name="Tree_temp_climate_004" parent="." unique_id=2062617181 instance=ExtResource("4_x7el7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
+
+[node name="Tree_temp_climate_005" parent="." unique_id=1258949777 instance=ExtResource("5_vxyk7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.041569, 0, 3.6913452)
+
+[node name="Tree_temp_climate_006" parent="." unique_id=80242184 instance=ExtResource("6_5557u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
+
+[node name="Tree_temp_climate_007" parent="." unique_id=1061073004 instance=ExtResource("7_bbu1i")]
+transform = Transform3D(0.99997824, 0.006597297, 0, -0.006597297, 0.99997824, 0, 0, 0, 1, 5.0856633, 0, 3.6913452)
+
+[node name="Tree_temp_climate_008" parent="." unique_id=1072036926 instance=ExtResource("8_kxu84")]
+transform = Transform3D(0.9999967, 0.0025656312, 0, -0.0025656312, 0.9999967, 0, 0, 0, 1, 10.621458, 0, 3.6913452)
+
+[node name="Tree_temp_climate_009" parent="." unique_id=146470826 instance=ExtResource("9_ga5jr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.366657, 0, 9.562977)
+
+[node name="Tree_temp_climate_010" parent="." unique_id=1175925718 instance=ExtResource("10_f4c8f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9933019, 0, 3.6913452)
+
+[node name="Tree_temp_climate_011" parent="." unique_id=131290424 instance=ExtResource("11_t2og5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.372703, 0, -1.3688707)
+
+[node name="Tree_temp_climate_012" parent="." unique_id=1574100720 instance=ExtResource("12_4udy2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.598529, 0, 0.0899086)
+
+[node name="Tree_temp_climate_013" parent="." unique_id=606398868 instance=ExtResource("13_uoblm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
+
+[node name="Tree_temp_climate_014" parent="." unique_id=696976942 instance=ExtResource("14_h2mxs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, -2.0598507)
+
+[node name="Tree_temp_climate_015" parent="." unique_id=1475728554 instance=ExtResource("15_gfit8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.926525, 0, 3.6913452)
+
+[node name="Tree_temp_climate_016" parent="." unique_id=1115439937 instance=ExtResource("16_upx2g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 10.947924)
+
+[node name="Tree_temp_climate_017" parent="." unique_id=830483211 instance=ExtResource("17_a2v8u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.80955887, 0, 6.7829823)
+
+[node name="Tree_temp_climate_018" parent="." unique_id=202462632 instance=ExtResource("18_t6yfh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 5.2756233)
+
+[node name="Tree_temp_climate_019" parent="." unique_id=1069308728 instance=ExtResource("19_sdndb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
+
+[node name="Tree_temp_climate_020" parent="." unique_id=39068927 instance=ExtResource("20_6eqxi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33299, 0, 3.6913452)
+
+[node name="Tree_temp_climate_021" parent="." unique_id=281773357 instance=ExtResource("21_4hjep")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
