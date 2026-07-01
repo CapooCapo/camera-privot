@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cx73t3m6j3710"]
+
+[ext_resource type="PackedScene" uid="uid://nevoa64mqojj" path="res://Assets/CowBlW.fbx" id="1_ujir2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ujir2"]
+size = Vector3(1, 1.5305328, 2.072876)
+
+[node name="cow" type="CharacterBody3D" unique_id=283112877]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1691271150]
+
+[node name="CowBlW" parent="Node3D" unique_id=545489266 instance=ExtResource("1_ujir2")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1082238158]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=118023104]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.79247284, 0.12335205)
+shape = SubResource("BoxShape3D_ujir2")

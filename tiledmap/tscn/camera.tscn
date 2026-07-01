@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b5jsnnq6o5vn5"]
 
 [ext_resource type="Script" uid="uid://yuk8bk8dhu3i" path="res://CameraPivot.gd" id="1_o7wlt"]
-[ext_resource type="PackedScene" uid="uid://cpx6sglq3cpq2" path="res://Character/Player.tscn" id="2_tflrq"]
+[ext_resource type="PackedScene" uid="uid://cpx6sglq3cpq2" path="res://scriptActor&&object/Character/Player.tscn" id="2_tflrq"]
 [ext_resource type="MeshLibrary" uid="uid://c0hvcka0umrsw" path="res://tiledmap/world.tres" id="3_0p6pn"]
 [ext_resource type="Script" uid="uid://byhcs10g4ho5g" path="res://tiledmap/world/grid/BuildGrid.gd" id="4_o7wlt"]
 [ext_resource type="Script" uid="uid://jwveg1b4cjpm" path="res://tiledmap/world/grid/GridTerrainGenerator.gd" id="5_2o6it"]
@@ -10,7 +10,14 @@
 [ext_resource type="Script" uid="uid://ipa7ug85dsnv" path="res://tiledmap/world/grid/GridBuildPreview.gd" id="8_cc8fo"]
 [ext_resource type="PackedScene" uid="uid://djf7keuxeyyoh" path="res://tiledmap/tscn/UI.tscn" id="9_4rwik"]
 [ext_resource type="Script" uid="uid://c3plke50s6ao4" path="res://tiledmap/world/plane/trees/treeSpawner.gd" id="10_tflrq"]
-[ext_resource type="PackedScene" uid="uid://dbqyog7x1tno7" path="res://tiledmap/tscn/trees.tscn" id="11_0p6pn"]
+[ext_resource type="PackedScene" uid="uid://bgguwtqteyc73" path="res://tiledmap/tscn/trees/oak.tscn" id="11_gexyg"]
+[ext_resource type="Script" uid="uid://dusb3x2nvtsar" path="res://tiledmap/world/animals/animalsSpawner.gd" id="12_gmuto"]
+[ext_resource type="PackedScene" uid="uid://bu4odwcrtxidg" path="res://tiledmap/tscn/trees/oak2.tscn" id="12_k2uca"]
+[ext_resource type="PackedScene" uid="uid://v7jeie8hwlxd" path="res://tiledmap/tscn/trees/oak3.tscn" id="13_cc8fo"]
+[ext_resource type="PackedScene" uid="uid://clgg71rqnme2y" path="res://tiledmap/tscn/animals/chicken.tscn" id="15_u40ej"]
+[ext_resource type="PackedScene" uid="uid://cx73t3m6j3710" path="res://tiledmap/tscn/animals/cow.tscn" id="16_jyycu"]
+[ext_resource type="PackedScene" uid="uid://bfhet322lxsq2" path="res://tiledmap/tscn/animals/pig.tscn" id="17_gjvob"]
+[ext_resource type="PackedScene" uid="uid://byueebvvq5wf3" path="res://tiledmap/tscn/animals/white_sheep.tscn" id="18_u40ej"]
 
 [node name="World" type="Node3D" unique_id=408228230]
 
@@ -32,6 +39,12 @@ size = 5.0
 
 [node name="Player" parent="." unique_id=1534766189 instance=ExtResource("2_tflrq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+ground_snap_up_tolerance = null
+ground_snap_down_tolerance = null
+surface_height_offset = null
+min_surface_y = null
+max_surface_y = null
+grid_map_path = null
 
 [node name="GridMap" type="GridMap" parent="." unique_id=1029862321]
 mesh_library = ExtResource("3_0p6pn")
@@ -46,7 +59,6 @@ script = ExtResource("4_o7wlt")
 
 [node name="TerrainGenerator" type="Node" parent="BuildGrid" unique_id=1289426731]
 script = ExtResource("5_2o6it")
-tree_spawner_node = NodePath("../../TreeContainer/TreeSpawner")
 
 [node name="PlacementRules" type="Node" parent="BuildGrid" unique_id=-2031155257]
 script = ExtResource("6_gexyg")
@@ -69,6 +81,15 @@ script = ExtResource("8_cc8fo")
 
 [node name="TreeSpawner" type="Node3D" parent="TreeContainer" unique_id=1189496767]
 script = ExtResource("10_tflrq")
-tree_scene = ExtResource("11_0p6pn")
+oak_scene = ExtResource("11_gexyg")
+oak2_scene = ExtResource("12_k2uca")
+oak3_scene = ExtResource("13_cc8fo")
 
 [node name="AnimalContainer" type="Node3D" parent="." unique_id=446800050]
+
+[node name="AnimalSpawner" type="Node3D" parent="AnimalContainer" unique_id=548980006]
+script = ExtResource("12_gmuto")
+chicken_scene = ExtResource("15_u40ej")
+pig_scene = ExtResource("17_gjvob")
+cow_scene = ExtResource("16_jyycu")
+sheep_scene = ExtResource("18_u40ej")

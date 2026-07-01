@@ -1,28 +1,98 @@
-class_name AnimalSpawner extends Node3D
+class_name AnimalSpawner
+extends Node
 
-var spawned_animals_by_chunk := {}
+# ------------------------------------------------------------------
+# Animal Scenes
+# ------------------------------------------------------------------
 
-func clear_all():
-	for chunk_animals in spawned_animals_by_chunk.values():
-		for animal in chunk_animals:
-			if is_instance_valid(animal): animal.queue_free()
-	spawned_animals_by_chunk.clear()
+@export var chicken_scene: PackedScene
+@export var pig_scene: PackedScene
+@export var cow_scene: PackedScene
+@export var sheep_scene: PackedScene
 
-func spawn_chunk(chunk_coord: Vector2i, animal_data_array: Array, scenes: Array[PackedScene]):
-	var chunk_animals: Array[Node] = []
-	for data in animal_data_array:
-		var scene = scenes[data.index]
-		if scene:
-			var animal_node = scene.instantiate()
-			animal_node.position = data.pos
-			animal_node.rotation.y = data.rot_y
-			add_child(animal_node) # Spawner làm cha, dễ quản lý hơn nhét vào GridMap
-			chunk_animals.append(animal_node)
-			
-	spawned_animals_by_chunk[chunk_coord] = chunk_animals
+var _animals_by_chunk: Dictionary = {}
 
-func clear_chunk(chunk_coord: Vector2i):
-	if spawned_animals_by_chunk.has(chunk_coord):
-		for animal in spawned_animals_by_chunk[chunk_coord]:
-			if is_instance_valid(animal): animal.queue_free()
-		spawned_animals_by_chunk.erase(chunk_coord)
+
+# ------------------------------------------------------------------
+# Spawn
+# ------------------------------------------------------------------
+
+func spawn_animals_for_chunk(chunk_coord: Vector2i, animals: Array, grid_map: GridMap) -> void:
+
+	if animals.is_empty():
+		return
+
+	if _animals_by_chunk.has(chunk_coord):
+		return
+
+	var instances: Array[Node3D] = []
+
+	for animal_data in animals:
+
+		var cell: Vector3i = animal_data["cell"]
+		var animal_type: int = animal_data["type"]
+
+		var scene := _get_scene(animal_type)
+		if scene == null:
+			continue
+
+		var animal: Node3D = scene.instantiate()
+
+		add_child(animal)
+
+		var world_pos: Vector3 = grid_map.to_global(grid_map.map_to_local(cell))
+		world_pos.y += 0.05
+
+		animal.global_position = world_pos
+		animal.rotation.y = randf() * TAU
+
+		if animal is VoxelActor:
+			animal.spawn_snap_pending = true
+
+		instances.append(animal)
+
+	_animals_by_chunk[chunk_coord] = instances
+
+
+# ------------------------------------------------------------------
+# Remove
+# ------------------------------------------------------------------
+
+func despawn_animals_for_chunk(chunk_coord: Vector2i) -> void:
+
+	if not _animals_by_chunk.has(chunk_coord):
+		return
+
+	for animal: Node3D in _animals_by_chunk[chunk_coord]:
+		if is_instance_valid(animal):
+			animal.queue_free()
+
+	_animals_by_chunk.erase(chunk_coord)
+
+
+func clear_all() -> void:
+
+	for chunk_coord in _animals_by_chunk.keys().duplicate():
+		despawn_animals_for_chunk(chunk_coord)
+
+
+# ------------------------------------------------------------------
+# Helpers
+# ------------------------------------------------------------------
+
+func _get_scene(animal_type: int) -> PackedScene:
+
+	match animal_type:
+		TerrainSampler.AnimalType.RABBIT:
+			return chicken_scene
+
+		TerrainSampler.AnimalType.COW:
+			return cow_scene
+
+		TerrainSampler.AnimalType.FROG:
+			return pig_scene
+
+		TerrainSampler.AnimalType.GOAT:
+			return sheep_scene
+
+	return null

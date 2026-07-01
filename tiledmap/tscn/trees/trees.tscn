@@ -28,64 +28,44 @@ script = ExtResource("1_xpp7t")
 metadata/_edit_lock_ = true
 
 [node name="Tree_temp_climate_001" parent="." unique_id=162551609 instance=ExtResource("1_dx4tv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 0.7658229)
 
 [node name="Tree_temp_climate_002" parent="." unique_id=981976443 instance=ExtResource("2_xpp7t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.218069, 0, 3.6913452)
 
 [node name="Tree_temp_climate_003" parent="." unique_id=462111365 instance=ExtResource("3_yp8kl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 6.5402665)
 
 [node name="Tree_temp_climate_004" parent="." unique_id=2062617181 instance=ExtResource("4_x7el7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
 
 [node name="Tree_temp_climate_005" parent="." unique_id=1258949777 instance=ExtResource("5_vxyk7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.041569, 0, 3.6913452)
 
 [node name="Tree_temp_climate_006" parent="." unique_id=80242184 instance=ExtResource("6_5557u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
 
 [node name="Tree_temp_climate_007" parent="." unique_id=1061073004 instance=ExtResource("7_bbu1i")]
-transform = Transform3D(0.99997824, 0.006597297, 0, -0.006597297, 0.99997824, 0, 0, 0, 1, 5.0856633, 0, 3.6913452)
 
 [node name="Tree_temp_climate_008" parent="." unique_id=1072036926 instance=ExtResource("8_kxu84")]
-transform = Transform3D(0.9999967, 0.0025656312, 0, -0.0025656312, 0.9999967, 0, 0, 0, 1, 10.621458, 0, 3.6913452)
+transform = Transform3D(0.9999967, 0.0025656312, 0, -0.0025656312, 0.9999967, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Tree_temp_climate_009" parent="." unique_id=146470826 instance=ExtResource("9_ga5jr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.366657, 0, 9.562977)
 
 [node name="Tree_temp_climate_010" parent="." unique_id=1175925718 instance=ExtResource("10_f4c8f")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9933019, 0, 3.6913452)
 
 [node name="Tree_temp_climate_011" parent="." unique_id=131290424 instance=ExtResource("11_t2og5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.372703, 0, -1.3688707)
 
 [node name="Tree_temp_climate_012" parent="." unique_id=1574100720 instance=ExtResource("12_4udy2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.598529, 0, 0.0899086)
 
 [node name="Tree_temp_climate_013" parent="." unique_id=606398868 instance=ExtResource("13_uoblm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
 
 [node name="Tree_temp_climate_014" parent="." unique_id=696976942 instance=ExtResource("14_h2mxs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, -2.0598507)
 
 [node name="Tree_temp_climate_015" parent="." unique_id=1475728554 instance=ExtResource("15_gfit8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.926525, 0, 3.6913452)
 
 [node name="Tree_temp_climate_016" parent="." unique_id=1115439937 instance=ExtResource("16_upx2g")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 10.947924)
 
 [node name="Tree_temp_climate_017" parent="." unique_id=830483211 instance=ExtResource("17_a2v8u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.80955887, 0, 6.7829823)
 
 [node name="Tree_temp_climate_018" parent="." unique_id=202462632 instance=ExtResource("18_t6yfh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 5.2756233)
 
 [node name="Tree_temp_climate_019" parent="." unique_id=1069308728 instance=ExtResource("19_sdndb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)
 
 [node name="Tree_temp_climate_020" parent="." unique_id=39068927 instance=ExtResource("20_6eqxi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.33299, 0, 3.6913452)
 
 [node name="Tree_temp_climate_021" parent="." unique_id=281773357 instance=ExtResource("21_4hjep")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5950322, 0, 3.6913452)

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://v7jeie8hwlxd"]
+
+[ext_resource type="PackedScene" uid="uid://muug5r02ue6v" path="res://Assets/Fbx/Tree_temp_climate_003.FBX" id="1_uxw10"]
+
+[node name="oak3" type="Node3D" unique_id=237351120]
+
+[node name="Tree_temp_climate_003" parent="." unique_id=855473132 instance=ExtResource("1_uxw10")]

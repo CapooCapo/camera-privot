@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cpx6sglq3cpq2"]
 
-[ext_resource type="PackedScene" uid="uid://ctd681n7f2c7y" path="res://Character/Man_01_02.fbx" id="1_lgt04"]
-[ext_resource type="Script" uid="uid://drvfwxvru2o61" path="res://Character/Player.gd" id="3_player"]
-[ext_resource type="Animation" uid="uid://05iu6euamr3u" path="res://Animation/Idle_breath.res" id="3_ssuvf"]
+[ext_resource type="PackedScene" uid="uid://ctd681n7f2c7y" path="res://scriptActor&&object/Character/Man_01_02.fbx" id="1_lgt04"]
+[ext_resource type="Script" uid="uid://drvfwxvru2o61" path="res://scriptActor&&object/Character/Player.gd" id="3_player"]
+[ext_resource type="Animation" uid="uid://clenlird6g276" path="res://Animation/Idle_breath.res" id="3_ssuvf"]
 [ext_resource type="Animation" uid="uid://wu0rydiusnlr" path="res://Animation/walk.res" id="4_68rl5"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_schp4"]

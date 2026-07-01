@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cy5ngyg4yefxv"]
+
+[ext_resource type="PackedScene" uid="uid://dgvih6dmnjp2g" path="res://Assets/ChickenBrown.fbx" id="1_74re3"]
+[ext_resource type="PackedScene" uid="uid://nevoa64mqojj" path="res://Assets/CowBlW.fbx" id="2_3fe0t"]
+[ext_resource type="PackedScene" uid="uid://lr2ja4352ygf" path="res://Assets/Pig.fbx" id="3_j0uxq"]
+[ext_resource type="PackedScene" uid="uid://c2o5fx8s7u4v5" path="res://Assets/SheepWhite.fbx" id="4_mqffq"]
+
+[node name="Node3D" type="Node3D" unique_id=1111805654]
+
+[node name="ChickenBrown" parent="." unique_id=18268183 instance=ExtResource("1_74re3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.7325004, -1.1920929e-07, 0.37531185)
+
+[node name="CowBlW" parent="." unique_id=545489266 instance=ExtResource("2_3fe0t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6545624, 0, -0.099948645)
+
+[node name="Pig" parent="." unique_id=2051344946 instance=ExtResource("3_j0uxq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014729857, 0, 1.5056162)
+
+[node name="SheepWhite" parent="." unique_id=2134265717 instance=ExtResource("4_mqffq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.86876965, -1.1920929e-07, 1.6025892)

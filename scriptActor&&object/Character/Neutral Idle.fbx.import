@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://mxjxkefxakh0"
-path="res://.godot/imported/Neutral Idle.fbx-048b59022dcb40634e4c09a376dc6b88.scn"
+path="res://.godot/imported/Neutral Idle.fbx-801bbf5dc8ca2037058b822b870af211.scn"
 
 [deps]
 
-source_file="res://Character/Neutral Idle.fbx"
-dest_files=["res://.godot/imported/Neutral Idle.fbx-048b59022dcb40634e4c09a376dc6b88.scn"]
+source_file="res://scriptActor&&object/Character/Neutral Idle.fbx"
+dest_files=["res://.godot/imported/Neutral Idle.fbx-801bbf5dc8ca2037058b822b870af211.scn"]
 
 [params]
 

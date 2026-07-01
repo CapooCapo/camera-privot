@@ -9,6 +9,12 @@ signal build_mode_changed(enabled: bool)
 @export var targeter_path: NodePath = ^"Targeting"
 @export var preview_path: NodePath = ^"Preview"
 @export var player_path: NodePath = ^"../Player"
+
+@export var tree_spawner_path: NodePath = ^"../TreeContainer/TreeSpawner"
+@export var animal_spawner_path: NodePath = ^"../AnimalContainer/AnimalSpawner"
+@onready var tree_spawner: TreeSpawner = get_node(tree_spawner_path)
+@onready var animal_spawner: AnimalSpawner = get_node(animal_spawner_path)
+
 @export var build_mode_enabled := false
 @export var build_mode_toggle_key := KEY_B
 
@@ -20,13 +26,18 @@ signal build_mode_changed(enabled: bool)
 @onready var player: Node = get_node_or_null(player_path)
 
 func _ready() -> void:
+
 	grid_map.cell_size = Vector3.ONE
 	preview.setup(grid_map.cell_size)
-	
-	if is_instance_valid(terrain_generator):
-		terrain_generator.generate(grid_map)
-	else:
-		push_error("BuildGrid: Không tìm thấy GridTerrainGenerator!")
+
+	if not is_instance_valid(terrain_generator):
+		push_error("Không tìm thấy TerrainGenerator")
+		return
+
+	terrain_generator.set_tree_spawner(tree_spawner)
+	terrain_generator.set_animal_spawner(animal_spawner)
+
+	terrain_generator.generate(grid_map)
 
 func _process(delta: float) -> void:
 	if is_instance_valid(terrain_generator):

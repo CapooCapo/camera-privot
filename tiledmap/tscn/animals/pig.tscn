@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://bfhet322lxsq2"]
+
+[ext_resource type="Script" uid="uid://drmcw4p54d7ug" path="res://tiledmap/tscn/animals/animalsScripts/pig.gd" id="1_hiqgl"]
+[ext_resource type="PackedScene" uid="uid://lr2ja4352ygf" path="res://Assets/Pig.fbx" id="1_rx3cx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rx3cx"]
+size = Vector3(0.494812, 0.6694946, 1.2122803)
+
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=246656066]
+script = ExtResource("1_hiqgl")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1919984738]
+
+[node name="Pig" parent="Node3D" unique_id=1539124408 instance=ExtResource("1_rx3cx")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1753995925]
+root_node = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=947950777]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03756714, 0.3284607, 0.07196045)
+shape = SubResource("BoxShape3D_rx3cx")

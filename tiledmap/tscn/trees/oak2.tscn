@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bu4odwcrtxidg"]
+
+[ext_resource type="PackedScene" uid="uid://cdybvqm7400vg" path="res://Assets/Fbx/Tree_temp_climate_002.FBX" id="1_i26my"]
+
+[node name="oak2" type="Node3D" unique_id=468583584]
+
+[node name="Tree_temp_climate_002" parent="." unique_id=2091474053 instance=ExtResource("1_i26my")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)

@@ -7,6 +7,7 @@ var lake_noise      := FastNoiseLite.new()
 var biome_noise     := FastNoiseLite.new()
 var moisture_noise  := FastNoiseLite.new()
 var tree_density_noise := FastNoiseLite.new()
+var animal_density_noise: FastNoiseLite
 
 
 func setup(cfg: TerrainConfig) -> void:
@@ -39,3 +40,10 @@ func setup(cfg: TerrainConfig) -> void:
 	tree_density_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
 	tree_density_noise.frequency = 0.075
 	tree_density_noise.fractal_octaves = 2
+
+	# animals
+	animal_density_noise = FastNoiseLite.new()
+	animal_density_noise.seed = cfg.generation_seed + 7
+	animal_density_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX
+	animal_density_noise.frequency = 0.03
+	animal_density_noise.fractal_octaves = 2

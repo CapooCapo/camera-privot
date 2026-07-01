@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://byueebvvq5wf3"]
+
+[ext_resource type="PackedScene" uid="uid://c2o5fx8s7u4v5" path="res://Assets/SheepWhite.fbx" id="1_8o5bw"]
+[ext_resource type="Script" uid="uid://d0ibcp1tudkn" path="res://tiledmap/tscn/animals/animalsScripts/white_sheep.gd" id="1_37lwh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_37lwh"]
+size = Vector3(0.60180664, 0.7459717, 1.2335205)
+
+[node name="SheepWhite" type="CharacterBody3D" unique_id=1007982308]
+script = ExtResource("1_37lwh")
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1497990642]
+
+[node name="SheepWhite" parent="Node3D" unique_id=2134265717 instance=ExtResource("1_8o5bw")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=184326028]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00061035156, 0.4693541, 0.116760254)
+shape = SubResource("BoxShape3D_37lwh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1749658399]
+root_node = NodePath("../CollisionShape3D")

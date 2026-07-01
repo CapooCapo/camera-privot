@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://ctd681n7f2c7y"
-path="res://.godot/imported/Man_01_02.fbx-e066832fb6035349a37984574b6f2266.scn"
+path="res://.godot/imported/Man_01_02.fbx-4cb324d75f15504ab8bc0c5fc685e14d.scn"
 
 [deps]
 
-source_file="res://Character/Man_01_02.fbx"
-dest_files=["res://.godot/imported/Man_01_02.fbx-e066832fb6035349a37984574b6f2266.scn"]
+source_file="res://scriptActor&&object/Character/Man_01_02.fbx"
+dest_files=["res://.godot/imported/Man_01_02.fbx-4cb324d75f15504ab8bc0c5fc685e14d.scn"]
 
 [params]
 

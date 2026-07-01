@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cuoerroy6l4vl"
-path="res://.godot/imported/Walking_no_skin.fbx-2f5ed326897f070aad5229413197fc7d.scn"
+path="res://.godot/imported/Walking_no_skin.fbx-205a032924e4e96ce79246ff7772db4e.scn"
 
 [deps]
 
-source_file="res://Character/Walking_no_skin.fbx"
-dest_files=["res://.godot/imported/Walking_no_skin.fbx-2f5ed326897f070aad5229413197fc7d.scn"]
+source_file="res://scriptActor&&object/Character/Walking_no_skin.fbx"
+dest_files=["res://.godot/imported/Walking_no_skin.fbx-205a032924e4e96ce79246ff7772db4e.scn"]
 
 [params]
 
